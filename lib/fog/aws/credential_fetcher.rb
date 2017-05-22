@@ -17,6 +17,7 @@ module Fog
             begin
               role_data = nil
               region = options[:region]
+              puts "[fog credentials] region: #{region}"
 
               if ENV["AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"]
                 connection = options[:connection] || Excon.new(CONTAINER_CREDENTIALS_HOST)
@@ -68,7 +69,7 @@ module Fog
 
         def refresh_credentials
           if @use_iam_profile
-            new_credentials = service.fetch_credentials :use_iam_profile => @use_iam_profile
+            new_credentials = service.fetch_credentials :use_iam_profile => @use_iam_profile #, :region => @region
             if new_credentials.any?
               setup_credentials new_credentials
               return true
